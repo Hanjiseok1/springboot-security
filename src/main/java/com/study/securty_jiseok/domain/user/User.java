@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class User {
 	private int user_code;
 	private String user_name;
-	private String user_eamil;
+	private String user_email;
 	private String user_id;
 	private String user_password;
 	private String user_roles;				//ROLE_USER, ROLE_ADMIN, ROLE_MANAGER
@@ -27,10 +27,10 @@ public class User {
 	private int gender;
 	
 	public List<String> getUserRoles() {
-		if(user_roles == null) {
+		if(user_roles == null || user_roles.isBlank()) {
 			return new ArrayList<String>();
 		}
-		return Arrays.asList(user_roles.split(","));
+		return Arrays.asList(user_roles.replaceAll(" ", "").split(","));
 	}
 	
 }
