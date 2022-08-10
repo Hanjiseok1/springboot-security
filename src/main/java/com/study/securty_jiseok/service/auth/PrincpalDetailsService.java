@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.study.securty_jiseok.domain.user.User;
 import com.study.securty_jiseok.domain.user.UserRepository;
+import com.study.securty_jiseok.web.dto.auth.SignupReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,22 +40,9 @@ public class PrincpalDetailsService implements UserDetailsService {
 		return new PrincpalDetails(userEntity);
 	}
 	
-	public boolean addUser() {
-		User user = User.builder()
-				.user_name("한지석")
-				.user_email("gu_cci___@naver.com")
-				.user_id("abcd")
-				.user_password(new BCryptPasswordEncoder().encode("1234"))
-				.user_roles("ROLE_USER, ROLE_MANAGER")
-				.build();
+	public boolean addUser(SignupReqDto signupReqDto) throws Exception {
 		
-		try {
-			userRepository.save(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+		return userRepository.save(signupReqDto.toEntity()) > 0;
 	}
 
 }
