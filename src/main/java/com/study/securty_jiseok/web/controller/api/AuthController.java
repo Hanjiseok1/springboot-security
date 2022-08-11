@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.study.securty_jiseok.handler.Exception.CustomvalidationApiException;
+import com.study.securty_jiseok.handler.aop.annotation.Timer;
 import com.study.securty_jiseok.service.auth.AuthService;
 import com.study.securty_jiseok.service.auth.PrincpalDetailsService;
 import com.study.securty_jiseok.web.dto.CMRespDto;
@@ -30,9 +32,9 @@ public class AuthController {
 	private final PrincpalDetailsService princpalDetailsService;
 	private final AuthService authService;
 	
+	@Timer
 	@GetMapping("/signup/validation/username")
 	public ResponseEntity<?> checkUsername(@Valid UsernameCheckReqDto usernameCheckReqDto, BindingResult bindingResult) {
-		
 		
 		if(bindingResult.hasErrors()) {
 			Map<String, String> errorMessage = new HashMap<String, String>();
@@ -40,8 +42,7 @@ public class AuthController {
 			bindingResult.getFieldErrors().forEach(error -> {
 				errorMessage.put(error.getField(), error.getDefaultMessage());
 			});
-			
-			return ResponseEntity.badRequest().body(new CMRespDto<>(-1, "유효성 검사 실패", errorMessage));
+			throw new CustomvalidationApiException("유효성 검사 실패", errorMessage);
 		}
 		
 		boolean status = false;
@@ -69,8 +70,7 @@ public class AuthController {
 			bindingResult.getFieldErrors().forEach(error -> {
 				errorMessage.put(error.getField(), error.getDefaultMessage());
 			});
-			
-			return ResponseEntity.badRequest().body(new CMRespDto<>(-1, "유효성 검사 실패", errorMessage));
+			throw new CustomvalidationApiException("유효성 검사 실패", errorMessage);
 		}
 		
 		try {

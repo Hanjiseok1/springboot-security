@@ -2,12 +2,12 @@
 	signup
  */
  
- const inputs = document.querySelectorAll("input");
- const signupButton = document.querySelectorAll("button")[0];
+const inputs = document.querySelectorAll("input");
+const signupButton = document.querySelectorAll("button")[0];
+
+let checkUsernameFlag = false;
  
- let checkUsernameFlag = false;
- 
- input[2].onblur = () => {
+inputs[2].onblur = () => {
 	/*
 		아이디 중복 확인
 	*/
@@ -19,8 +19,7 @@
 		data: {username : inputs[2].value},
 		dataType: "json",
 		success: (response) => {
-			
-			checkUsernameFlag = response.data
+			checkUsernameFlag = response.data;
 			
 			if(checkUsernameFlag) {
 				alert("사용 가능한 아이디입니다.");
@@ -29,11 +28,11 @@
 			}
 		},
 		error: (error) => {
-			if(error.status == 400) {
+			if(error.status == 400){
 				alert(JSON.stringify(error.responseJSON.data));
 			}else{
 				console.log("요청 실패");
-				console.log(error);
+				console.log(error);				
 			}
 		}
 	});
@@ -56,20 +55,18 @@ signupButton.onclick = () => {
 		data: JSON.stringify(signupData),
 		dataType: "json",
 		success: (response) => {
-			if(response.data) {
-				alert("회원가입 완료");
-				location.replace("/auth/signup");
+			if(response.data){
+				alert("회원가입 완료.");
+				location.replace("/auth/signin");
 			}
 		},
 		error: (error) => {
-			error: (error) => {
-			if(error.status == 400) {
+			if(error.status == 400){
 				alert(JSON.stringify(error.responseJSON.data));
 			}else{
 				console.log("요청 실패");
-				console.log(error);
+				console.log(error);				
 			}
 		}
-		}
-	});
+	})
 }
