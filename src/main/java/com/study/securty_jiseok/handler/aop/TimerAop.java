@@ -17,10 +17,10 @@ public class TimerAop {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
-	@Pointcut("execution(* com.study.security_jiseok.web.controller..*.*(..))")
+	@Pointcut("execution(* com.study.security_junil.web.controller..*.*(..))")
 	private void pointCut() {}
 	
-	@Pointcut("@annotation(com.study.security_jiseok.handler.aop.annotation.Timer)")
+	@Pointcut("@annotation(com.study.security_junil.handler.aop.annotation.Timer)")
 	private void enableTimer() {}
 	
 	@Around("pointCut() && enableTimer()")
@@ -32,7 +32,7 @@ public class TimerAop {
 		
 		stopWatch.stop();
 		
-		LOGGER.info(">>>>> {}({}) 메소드 실행 시간: {}ms",
+		LOGGER.info(">>>>> {}({}) 메소드 실행 시간: {}ms", 
 				joinPoint.getSignature().getDeclaringTypeName(),
 				joinPoint.getSignature().getName(),
 				stopWatch.getTotalTimeSeconds());

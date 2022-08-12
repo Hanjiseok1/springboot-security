@@ -16,24 +16,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAop {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LogAop.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(LogAop.class);
 	
-	@Pointcut("@annotation(com.study.security_jiseok.handler.aop.annotation.Log")
-	private void eableLog() {}
-
-	@Around("eableLog()")
+	@Pointcut("@annotation(com.study.security_junil.handler.aop.annotation.Log)")
+	private void enableLog() {}
+	
+	@Around("enableLog()")
 	public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
 		Map<String, Object> params = getParams(joinPoint);
-		LOGGER.info(">>>>> Method call >>>>> {}({})",
+		LOGGER.info(">>>>> Method call >>>>> {}({})", 
 				joinPoint.getSignature().getName(),
 				params);
 		
 		Object result = joinPoint.proceed();
 		
-		LOGGER.info(">>>>> Method call >>>>> {} -----> {})",
+		LOGGER.info(">>>>> Method End >>>>> {} --return--> {})", 
 				joinPoint.getSignature().getName(),
 				result);
-		
 		return result;
 	}
 	
@@ -42,8 +41,8 @@ public class LogAop {
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
-		String [] argNames = codeSignature.getParameterNames();
-		Object [] args = joinPoint.getArgs();
+		String[] argNames = codeSignature.getParameterNames();
+		Object[] args = joinPoint.getArgs();
 		
 		for(int i = 0; i < argNames.length; i++) {
 			params.put(argNames[i], args[i]);

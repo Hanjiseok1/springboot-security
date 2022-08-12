@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.securty_jiseok.handler.Exception.CustomvalidationApiException;
+import com.study.securty_jiseok.handler.aop.annotation.Log;
 import com.study.securty_jiseok.handler.aop.annotation.Timer;
+import com.study.securty_jiseok.handler.aop.annotation.ValidCheck2;
 import com.study.securty_jiseok.service.auth.AuthService;
 import com.study.securty_jiseok.service.auth.PrincpalDetailsService;
 import com.study.securty_jiseok.web.dto.CMRespDto;
@@ -32,24 +34,19 @@ public class AuthController {
 	private final PrincpalDetailsService princpalDetailsService;
 	private final AuthService authService;
 	
+	@Log
 	@Timer
+	@ValidCheck2
 	@GetMapping("/signup/validation/username")
 	public ResponseEntity<?> checkUsername(@Valid UsernameCheckReqDto usernameCheckReqDto, BindingResult bindingResult) {
 		
-		if(bindingResult.hasErrors()) {
-			Map<String, String> errorMessage = new HashMap<String, String>();
-			
-			bindingResult.getFieldErrors().forEach(error -> {
-				errorMessage.put(error.getField(), error.getDefaultMessage());
-			});
-			throw new CustomvalidationApiException("유효성 검사 실패", errorMessage);
-		}
+		
 		
 		boolean status = false;
 		
 		try {
 			
-		status = authService.checkUsername(usernameCheckReqDto);
+			status = authService.checkUsername(usernameCheckReqDto);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,19 +56,13 @@ public class AuthController {
 		return ResponseEntity.ok(new CMRespDto<>(1, "회원가입 가능여부", status));
 	}
 	
+	@ValidCheck2
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody @Valid SignupReqDto signupReqDto, BindingResult bindingResult) {
 		
 		boolean status = false;
 		
-		if(bindingResult.hasErrors()) {
-			Map<String, String> errorMessage = new HashMap<String, String>();
-			
-			bindingResult.getFieldErrors().forEach(error -> {
-				errorMessage.put(error.getField(), error.getDefaultMessage());
-			});
-			throw new CustomvalidationApiException("유효성 검사 실패", errorMessage);
-		}
+		
 		
 		try {
 			status = princpalDetailsService.addUser(signupReqDto);
