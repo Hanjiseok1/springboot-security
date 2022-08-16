@@ -18,7 +18,7 @@ public class LogAop {
 
 private static final Logger LOGGER = LoggerFactory.getLogger(LogAop.class);
 	
-	@Pointcut("@annotation(com.study.security_junil.handler.aop.annotation.Log)")
+	@Pointcut("@annotation(com.study.securty_jiseok.handler.aop.annotation.Log)")
 	private void enableLog() {}
 	
 	@Around("enableLog()")

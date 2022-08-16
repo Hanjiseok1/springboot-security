@@ -17,10 +17,10 @@ public class TimerAop {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
-	@Pointcut("execution(* com.study.security_junil.web.controller..*.*(..))")
+	@Pointcut("execution(* com.study.securty_jiseok.web.controller..*.*(..))")
 	private void pointCut() {}
 	
-	@Pointcut("@annotation(com.study.security_junil.handler.aop.annotation.Timer)")
+	@Pointcut("@annotation(com.study.securty_jiseok.handler.aop.annotation.Timer)")
 	private void enableTimer() {}
 	
 	@Around("pointCut() && enableTimer()")

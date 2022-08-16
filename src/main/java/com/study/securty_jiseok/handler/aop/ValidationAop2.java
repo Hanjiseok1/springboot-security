@@ -49,7 +49,7 @@ public class ValidationAop2 {
 		}
 	}
 	
-	@AfterReturning(value = "enableValid", returning = "returnObj")
+	@AfterReturning(value = "enableValid()", returning = "returnObj")
 	public void afterReturn(JoinPoint joinPoint, Object returnObj) {
 		LOGGER.info("유효성 검사 완료: {}", returnObj);
 		

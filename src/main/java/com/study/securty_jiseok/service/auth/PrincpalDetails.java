@@ -3,14 +3,16 @@ package com.study.securty_jiseok.service.auth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.study.securty_jiseok.domain.user.User;
 
 
-public class PrincpalDetails implements UserDetails {
+public class PrincpalDetails implements UserDetails, OAuth2User {
 	private static final long serialVersionUID = 1L;
 	
 	private User user;
@@ -18,6 +20,7 @@ public class PrincpalDetails implements UserDetails {
 	public PrincpalDetails(User user) {
 		this.user = user;
 	}
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -93,6 +96,16 @@ public class PrincpalDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		return null;
 	}
 
 }

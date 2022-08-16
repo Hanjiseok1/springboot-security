@@ -11,10 +11,35 @@ server:
     uri-encoding: UTF-8
     
 spring:
-#  security:
+  security:
 #    user:
 #      name: test
 #      password: 1234
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 891457587526-g3alpujl5dck9fjmph5r292baqq25273.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+            - email
+            - profile
+          naver:
+            client-id: Gd8cvSAcDFj4mm5LZaWz
+            client-secret: Z8tKC3Sae6
+            scope:
+            - email
+            - name
+            client-name: Naver
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8000/login/oauth2/code/naver
+        provider:
+          naver:
+            authorization-uri: https://nid.naver.com/oauth2.0/authorize
+            token-uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user-name-attribute: response
+                
   mvc:
     static-path-pattern: /static/**
   datasource:
