@@ -22,13 +22,28 @@ import lombok.extern.slf4j.Slf4j;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	
 	private final UserRepository userRepository;
-
+	
+	/*
+	 * OAuth2User의 정보를 우리 서버 database에 등록
+	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		String provider = null;
 		
+		/*
+		 * super.loadUer(userRequest)
+		 * 엔드포인트 결과 즉, OAuth2User 정보를 가진 객체를 리턴
+		 */
 		OAuth2User oAuth2User = super.loadUser(userRequest);
+		
+		/*
+		 * Provider 정보(클라이언트 아이디, 시큐리티 시크릿, 네임 등...)
+		 */
 		ClientRegistration clientRegistration = userRequest.getClientRegistration();
+		
+		/*
+		 * 실제 프로필 정보(Map)
+		 */
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 		log.error(">>>>> ClientRegistration: {}", clientRegistration);
 		log.error(">>>>> attributes: {}", attributes);
