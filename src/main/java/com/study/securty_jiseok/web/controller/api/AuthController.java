@@ -19,7 +19,7 @@ import com.study.securty_jiseok.handler.aop.annotation.Log;
 import com.study.securty_jiseok.handler.aop.annotation.Timer;
 import com.study.securty_jiseok.handler.aop.annotation.ValidCheck2;
 import com.study.securty_jiseok.service.auth.AuthService;
-import com.study.securty_jiseok.service.auth.PrincpalDetailsService;
+import com.study.securty_jiseok.service.auth.PrincipalDetailsService;
 import com.study.securty_jiseok.web.dto.CMRespDto;
 import com.study.securty_jiseok.web.dto.auth.SignupReqDto;
 import com.study.securty_jiseok.web.dto.auth.UsernameCheckReqDto;
@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	
-	private final PrincpalDetailsService princpalDetailsService;
+	private final PrincipalDetailsService princpalDetailsService;
 	private final AuthService authService;
 	
 	@Log

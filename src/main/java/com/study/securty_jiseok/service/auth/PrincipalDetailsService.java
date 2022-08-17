@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PrincpalDetailsService implements UserDetailsService {
+public class PrincipalDetailsService implements UserDetailsService {
 	
 	private final UserRepository userRepository;
 
@@ -37,7 +37,7 @@ public class PrincpalDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(username + "사용자이름은 사용 할 수 없습니다.");
 		}
 		
-		return new PrincpalDetails(userEntity);
+		return new PrincipalDetails(userEntity);
 	}
 	
 	public boolean addUser(SignupReqDto signupReqDto) throws Exception {

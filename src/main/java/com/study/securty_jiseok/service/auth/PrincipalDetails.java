@@ -11,16 +11,23 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.study.securty_jiseok.domain.user.User;
 
+import lombok.Data;
 
-public class PrincpalDetails implements UserDetails, OAuth2User {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 	private static final long serialVersionUID = 1L;
 	
 	private User user;
+	private Map<String, Object> attribute;
 	
-	public PrincpalDetails(User user) {
+	public PrincipalDetails(User user) {
 		this.user = user;
 	}
 	
+	public PrincipalDetails(User user, Map<String, Object> attribute) {
+		this.user = user;
+		this.attribute = attribute;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,8 +44,9 @@ public class PrincpalDetails implements UserDetails, OAuth2User {
 //					return role;
 //				}
 //			};
+//			
 //			grantedAuthorities.add(authority);
-//		}  이 식을 람다식으로 바꿈.
+//		}
 		
 		user.getUserRoles().forEach(role -> {
 			grantedAuthorities.add(() -> role);
@@ -46,7 +54,7 @@ public class PrincpalDetails implements UserDetails, OAuth2User {
 		
 		return grantedAuthorities;
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return user.getUser_password();
@@ -60,13 +68,13 @@ public class PrincpalDetails implements UserDetails, OAuth2User {
 	/*
 	 * 계정 만료 여부
 	 * true: 만료 안됨
-	 * false: 만료됨
+	 * false: 만료
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	
 	/*
 	 * 계정 잠김 여부
 	 * true: 잠기지 않음
@@ -87,7 +95,6 @@ public class PrincpalDetails implements UserDetails, OAuth2User {
 		return true;
 	}
 
-
 	/*
 	 * 사용자 활성화 여부
 	 * true: 활성화
@@ -100,12 +107,13 @@ public class PrincpalDetails implements UserDetails, OAuth2User {
 
 	@Override
 	public Map<String, Object> getAttributes() {
-		return null;
+		return attribute;
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return user.getUser_name();
 	}
+
 
 }
