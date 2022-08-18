@@ -6,15 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/notice-header.css">
     <link rel="stylesheet" href="/static/css/notice.css">
+    <link rel="stylesheet" href="/static/css/notice-list.css">
     
 </head>
 <body>
     <header>
         <nav>
-            <button class="nav-list">홈</button>
-            <button class="nav-list">공지사항</button>
+            <button type="button" class="nav-list">홈</button>
+            <button type="button" class="nav-list">공지사항</button>
         </nav>
+        <div class="auth-items">
+            <button type="button" class="auth-button signin">로그인</button>
+            <button type="button" class="auth-button signin">회원가입</button>
+        </div>
     </header>
     <main>
         <div class="notice-header">
@@ -26,7 +32,7 @@
                     <option value="writer">작성자</option>
                 </select>
                 <input type="text" class="search-input">
-                <button class="search-button">검색</button>
+                <button type="button" class="search-button">검색</button>
             </div>
         </div>
         <article>
@@ -48,13 +54,13 @@
             </table>
         </article>
         <div class="page-buttons">
-            <button class="pre-page-button">&lt;</button>
-            <button class="page-number-button">1</button>
-            <button class="page-number-button">2</button>
-            <button class="page-number-button">3</button>
-            <button class="page-number-button">4</button>
-            <button class="page-number-button">5</button>
-            <button class="next-page-button">&gt;</button>
+            <button type="button" class="page-button">&lt;</button>
+            <button type="button" class="page-button">1</button>
+            <button type="button" class="page-button">2</button>
+            <button type="button" class="page-button">3</button>
+            <button type="button" class="page-button">4</button>
+            <button type="button" class="page-button">5</button>
+            <button type="button" class="page-button">&gt;</button>
         </div>
 
     </main>
