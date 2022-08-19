@@ -1,0 +1,30 @@
+package com.study.securty_jiseok.web.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/notice")
+public class NoticePageController {
+	
+	@GetMapping("/list")
+	public String loadNoticeList() {
+		return "notice/notice";
+	}
+	
+	@GetMapping("/addition")
+	public String loadNoticeInsert() {
+		return "notice/notice_insert";
+	}
+	
+	@GetMapping("/{noticeCode}")
+	public String loadNoticeDetail() {
+		return "notice/notice_detail";
+	}
+	
+	@GetMapping("/modifycation/{noticeCode}")
+	public String loadNoticeModify() {
+		return "notice/notice_modify";
+	}
+}

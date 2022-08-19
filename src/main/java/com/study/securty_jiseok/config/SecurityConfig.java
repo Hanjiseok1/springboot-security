@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
+import org.springframework.web.filter.CorsFilter;
 
 import com.study.securty_jiseok.config.auth.AuthFaliureHandler;
 import com.study.securty_jiseok.service.auth.PrincipalOauth2UserService;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	private final CorsFilter corsFilter;
 	private final PrincipalOauth2UserService principalOauth2UserService;
 	
 	@Bean
@@ -29,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();	//csrf()와 disable() 안쓰면 나중에 문제가 생김
+		http.headers().frameOptions().disable().addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM /**"));
+		http.addFilter(corsFilter);
 		http.authorizeRequests()	//authorizeRequests() 요청이 들어왔을때 인증을 거쳐라는 용어 //authorizeRequests()anyRequest()permitAll() 3개가 셋트임.
 			.antMatchers("/api/v1/grant/test/user/**")
 			.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
