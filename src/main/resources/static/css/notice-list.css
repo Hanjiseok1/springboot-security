@@ -44,6 +44,25 @@
     text-align: left;
 }
 
+.list-footer {
+	display: flex;
+	justify-content: space-between;
+	
+	width: 70%;
+}
+
+.notice-add-button {
+	margin: 5px 5px;
+
+    border: 1px solid #141414;
+    width: 80px;
+    height: 40px;
+
+    background-color: white;
+
+    font-weight: 600;
+}
+
 .page-buttons{
     display: flex;
     justify-content: flex-start;
@@ -72,3 +91,27 @@
 .page-button:hover {
     background-color: #9ee8ff;
 }
+
+.visible {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
