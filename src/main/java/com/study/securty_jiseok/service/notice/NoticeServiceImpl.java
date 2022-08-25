@@ -21,6 +21,7 @@ import com.study.securty_jiseok.domain.notice.Notice;
 import com.study.securty_jiseok.domain.notice.NoticeFile;
 import com.study.securty_jiseok.domain.notice.NoticeRepository;
 import com.study.securty_jiseok.web.dto.notice.AddNoticeReqDto;
+import com.study.securty_jiseok.web.dto.notice.GetNoticeListResponseDto;
 import com.study.securty_jiseok.web.dto.notice.GetNoticeResponseDto;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,24 @@ public class NoticeServiceImpl implements NoticeService {
 	private String filePath;
 	
 	private final NoticeRepository noticeRepository;
+	
+	@Override
+	public List<GetNoticeListResponseDto> getNoticeList(int page, String searchFlag, String searchValue) throws Exception {
+		int index = (page - 1) * 10;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("index", index);
+		map.put("search_flag", searchFlag);
+		map.put("search_value", searchValue == null ? "" : searchValue);
+		
+		List<GetNoticeListResponseDto> list = new ArrayList<GetNoticeListResponseDto>();
+		
+		noticeRepository.getNoticeList(map).forEach(notice -> {
+			list.add(notice.toListDto());
+		});
+		
+		return list;
+	}
 	
 	public int addNotice(AddNoticeReqDto addNoticeReqDto) throws Exception{
 		Predicate<String> predicate = (filename) -> !filename.isBlank();
@@ -85,17 +104,22 @@ public class NoticeServiceImpl implements NoticeService {
 		Map<String, Object> reqmap = new HashMap<String, Object>();
 		reqmap.put("flag", flag);
 		reqmap.put("notice_code", noticeCode);
+		noticeRepository.countIncrement(reqmap);
 		
 		List<Notice> notices = noticeRepository.getNotice(reqmap);
+		System.out.println(notices);
 		if(!notices.isEmpty()) {
 			List<Map<String, Object>> downloadFiles = new ArrayList<Map<String,Object>>();
 			notices.forEach(notice -> {
 				Map<String, Object> fileMap = new HashMap<String, Object>();
-				fileMap.put("fileCode", notice.getFile_code());
-				
 				String fileName = notice.getFile_name();
-				fileMap.put("fileName", fileName.substring(fileName.indexOf("_") + 1));
+				System.out.println(fileName);
 				
+				if(fileName != null) {
+					fileMap.put("fileCode", notice.getFile_code());				
+					fileMap.put("fileOriginName", fileName.substring(fileName.indexOf("_") + 1));				
+					fileMap.put("fileTempName", fileName);				
+				}
 				downloadFiles.add(fileMap);
 			});
 			
@@ -109,7 +133,7 @@ public class NoticeServiceImpl implements NoticeService {
 					.createDate(firstNotice.getCreate_date().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm:ss")))
 					.noticeCount(firstNotice.getNotice_count())
 					.noticeContent(firstNotice.getNotice_content())
-					.downloadfiles(downloadFiles)
+					.downloadFiles(downloadFiles)
 					.build();
 		}
 		
